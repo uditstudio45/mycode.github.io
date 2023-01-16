@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <style>
+      #content {
+        overflow: hidden;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      #content #section-video {
+        position: relative;
+        height: 100%;
+        min-height: 100%;
+        min-width: 100%;
+        height: 100vh;
+        background-image: url("https://www.gstatic.com/webp/gallery/4.jpg");
+        background-size: cover;
+        background-position: center center;
+        object-fit: cover;
+      }
+
+      #content #section-video video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      @media (min-aspect-ratio: 16 / 9) {
+        #content #section-video video {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      @media (max-aspect-ratio: 16 / 9) {
+        #content #section-video video {
+          width: auto;
+          height: 100%;
+        }
+      }
+
+      #content #section-wipes {
+        width: 100%;
+        height: 100%;
+      }
+      #content #section-wipes .panel .panel-inner,
+      #content #section-wipes footer .panel-inner {
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        padding-top: 90px;
+        margin-left: 20%;
+        margin-right: 70px;
+      }
+      #content #section-wipes .panel .panel-inner h2,
+      #content #section-wipes footer .panel-inner h2 {
+        width: 100%;
+        text-align: center;
+        font-size: 150px;
+        font-family: "Lato", sans-serif;
+      }
+
+      #content #section-wipes .panel,
+      #content #section-wipes footer {
+        height: 100vh;
+        position: relative;
+        margin-bottom: 400px;
+      }
+      #content footer {
+        background-color: #cdcdcd;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <section id="section-video">
+        <div class="panel-inner"></div>
+      </section>
+      <div id="section-wipes">
+        <section id="section-web" class="panel" style="background-color: cyan">
+          <div class="panel-inner">
+            <h2>Web.</h2>
+          </div>
+        </section>
+        <section
+          id="section-viking"
+          class="panel"
+          style="background-color: purple"
+        >
+          <div class="panel-inner">
+            <h2>Viking.</h2>
+          </div>
+        </section>
+        <section
+          id="section-contact"
+          class="panel"
+          style="background-color: green"
+        >
+          <div class="rslide-panel">
+            <div class="rslide-handle">
+              <div class="handle-link" data-target="contact">
+                <span class="icon ion-chevron-left"></span>
+                <span class="icon ion-chevron-left"></span>
+                <span class="icon ion-chevron-left"></span>
+              </div>
+            </div>
+            <div class="rslide-content"></div>
+          </div>
+          <div class="panel-inner">
+            <h2>Contact</h2>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script>
+      $(function () {
+        // init
+        var controller = new ScrollMagic.Controller({
+          globalSceneOptions: {
+            triggerHook: "onLeave",
+          },
+        });
+
+        // get all slides
+        var slides = document.querySelectorAll(".panel");
+
+        // create scene for every slide
+        for (var i = 0; i < slides.length; i++) {
+          new ScrollMagic.Scene({
+            triggerElement: slides[i],
+          })
+            .setPin(slides[i], { pushFollowers: false })
+            .addTo(controller);
+        }
+
+        // fix navbar when scrolling
+        var banner = $("#nav-container");
+        new ScrollMagic.Scene({
+          triggerElement: "#section-web",
+          triggerHook: "onCenter",
+          offset: -150,
+        })
+          .setClassToggle(banner[0], "fixed")
+          .setTween(banner[0], 0.3, { top: 0, ease: Power2.EaseIn })
+          .addTo(controller);
+      });
+    </script>
+  </body>
+</html>
